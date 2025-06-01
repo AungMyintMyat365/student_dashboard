@@ -12,12 +12,26 @@ function ProtectedRoute({ children }) {
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        </Routes>
-      </Router>
+      <Routes>
+  <Route path="/login" element={<Login />} />
+  <Route
+    path="/dashboard"
+    element={
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/"
+    element={
+      <ProtectedRoute>
+        <Navigate to="/dashboard" />
+      </ProtectedRoute>
+    }
+  />
+</Routes>
+
     </AuthProvider>
   );
 }
