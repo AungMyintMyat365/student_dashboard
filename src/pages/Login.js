@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
     const success = login(username, password);
     if (success) {
-      navigate("dashboard"); // or any route you want after login
+      navigate("/dashboard"); // or any route you want after login
     } else {
       alert("Invalid credentials");
     }
