@@ -9,8 +9,10 @@ export const fetchSheetData = async (sheetName) => {
   )}?key=${API_KEY}`;
 
   try {
+    console.log("Fetching from:", url); // 🔍 Log the API URL
     const response = await fetch(url);
     const data = await response.json();
+    console.log("Raw response data:", data); // 🔍 Log the response
 
     if (!data.values || data.values.length === 0) return [];
 
