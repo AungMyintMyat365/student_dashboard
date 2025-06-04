@@ -20,7 +20,6 @@ export default function Dashboard() {
         const ach = await fetchSheetData("Achievement Done");
         const prog = await fetchSheetData("Points");
         const sess = await fetchSheetData("Student Data");
-
         setAchievements(ach);
         setProgress(prog);
         setSessions(sess);
@@ -61,37 +60,22 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-4 bg-gray-100 min-h-screen" ref={pdfRef}>
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
-        <h1 className="text-2xl md:text-3xl font-bold">Student Dashboard</h1>
-        <div className="flex gap-2 flex-wrap">
-          <button
-            onClick={exportToExcel}
-            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
-          >
-            Export Excel
-          </button>
-          <button
-            onClick={exportToPDF}
-            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
-          >
-            Export PDF
-          </button>
-          <button
-            onClick={logout}
-            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm"
-          >
-            Logout
-          </button>
+    <div ref={pdfRef} className="min-h-screen bg-gray-50 px-6 py-8">
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">📊 Student Dashboard</h1>
+        <div className="space-x-2">
+          <button onClick={exportToExcel} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm">Export Excel</button>
+          <button onClick={exportToPDF} className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm">Export PDF</button>
+          <button onClick={logout} className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">Logout</button>
         </div>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Weekly Progress</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section className="bg-white p-5 rounded-xl shadow">
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">📈 Weekly Progress</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={progress}>
-              <XAxis dataKey="Name" hide={false} />
+              <XAxis dataKey="Name" />
               <YAxis />
               <Tooltip />
               <Legend />
@@ -100,25 +84,25 @@ export default function Dashboard() {
               <Bar dataKey="Week 3" fill="#ffc658" />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </section>
 
-        <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Achievements</h2>
-          <ul className="list-disc list-inside space-y-1 text-sm">
+        <section className="bg-white p-5 rounded-xl shadow">
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">🏆 Achievements</h2>
+          <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
             {achievements.map((item, idx) => (
-              <li key={idx}>{item.Name}: {item.Achievement}</li>
+              <li key={idx}><strong>{item.Name}</strong>: {item.Achievement}</li>
             ))}
           </ul>
-        </div>
+        </section>
 
-        <div className="bg-white p-4 rounded shadow md:col-span-2 overflow-auto">
-          <h2 className="text-lg md:text-xl font-semibold mb-2">Student Sessions</h2>
+        <section className="bg-white p-5 rounded-xl shadow lg:col-span-2 overflow-auto">
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">🧑‍🎓 Student Sessions</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full border text-sm">
               <thead>
                 <tr className="bg-gray-200">
                   {sessions[0] && Object.keys(sessions[0]).map((key) => (
-                    <th key={key} className="px-2 py-1 border whitespace-nowrap">{key}</th>
+                    <th key={key} className="px-3 py-2 border text-left">{key}</th>
                   ))}
                 </tr>
               </thead>
@@ -126,14 +110,14 @@ export default function Dashboard() {
                 {sessions.map((row, idx) => (
                   <tr key={idx} className="even:bg-gray-50">
                     {Object.values(row).map((val, i) => (
-                      <td key={i} className="px-2 py-1 border whitespace-nowrap">{val}</td>
+                      <td key={i} className="px-3 py-2 border">{val}</td>
                     ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
